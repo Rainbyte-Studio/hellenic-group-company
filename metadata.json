@@ -1,0 +1,6 @@
+{
+  "name": "Hellenic Group Company — Maritime Engineering, Shipbuilding & Ship Repair",
+  "description": "Official corporate website of Hellenic Group Company and Hellenic Shipbuilding Industry Ltd. (HSI) in Perama, Piraeus, Greece. Specializing in ship repairs, vessel conversions, newbuildings up to 5,000 DWT, dry docking up to Panamax size, and turnkey BWTS and EGCS scrubber retrofits.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+
+# Canonical Domain for Hellenic Group Company
+Host: https://hellenicgroupcompany.com
+Sitemap: https://hellenicgroupcompany.com/sitemap.xml
