@@ -11,7 +11,6 @@
     font-family: var(--font-sans);
     color: #0F172A;
     background-color: #F8FAFC;
-    overflow-x: hidden;
   }
 
   h1, h2, h3, h4, .font-display {

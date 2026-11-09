@@ -135,7 +135,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
                     onClose();
                     onNavigate('capabilities', project.relatedCapabilityId);
                   }}
-                  className="w-full py-2.5 px-4 text-xs font-semibold text-slate-800 bg-white hover:bg-slate-100 border border-slate-300 rounded transition-colors cursor-pointer whitespace-nowrap"
+                  className="w-full py-2.5 px-4 text-xs font-semibold text-slate-800 bg-white hover:bg-slate-100 border border-slate-300 rounded transition-colors cursor-pointer text-center"
                 >
                   View Related Capability Specification
                 </button>
@@ -145,10 +145,10 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
                     onClose();
                     onNavigate('contact');
                   }}
-                  className="w-full py-2.5 px-4 text-xs font-semibold text-white bg-[#1D4ED8] hover:bg-[#1E40AF] rounded inline-flex items-center justify-center gap-1.5 transition-colors cursor-pointer whitespace-nowrap"
+                  className="w-full py-2.5 px-4 text-xs font-semibold text-white bg-[#1D4ED8] hover:bg-[#1E40AF] rounded inline-flex items-center justify-center gap-1.5 transition-colors cursor-pointer text-center"
                 >
-                  Inquire About Similar Vessel Scope
-                  <ArrowRight className="w-3.5 h-3.5" />
+                  <span>Inquire About Similar Vessel Scope</span>
+                  <ArrowRight className="w-3.5 h-3.5 shrink-0" />
                 </button>
               </div>
             </div>

@@ -15,15 +15,16 @@ export const MaritimeImage: React.FC<MaritimeImageProps> = ({
   src,
   alt,
   className = 'w-full h-full object-cover',
-  containerClassName = 'relative overflow-hidden bg-[#0F172A]',
+  containerClassName = 'bg-[#0F172A]',
   eager = false,
   overlayGradient = 'none',
   caption,
 }) => {
   const [hasError, setHasError] = useState(false);
+  const resolvedContainerClass = `relative overflow-hidden ${containerClassName}`;
 
   return (
-    <div className={containerClassName}>
+    <div className={resolvedContainerClass}>
       {!hasError ? (
         <img
           src={src}
@@ -81,7 +82,7 @@ export const MaritimeImage: React.FC<MaritimeImageProps> = ({
       )}
 
       {caption && (
-        <div className="absolute bottom-0 inset-x-0 px-4 py-2.5 bg-[#0A111E]/80 backdrop-blur-[2px] border-t border-white/10">
+        <div className="absolute bottom-0 inset-x-0 px-4 py-2.5 bg-[#0A111E]/85 backdrop-blur-[2px] border-t border-white/10 z-10">
           <p className="text-xs text-slate-200 font-mono truncate">{caption}</p>
         </div>
       )}

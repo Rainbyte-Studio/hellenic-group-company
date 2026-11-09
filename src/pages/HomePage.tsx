@@ -64,20 +64,20 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
               Combining 6,000 m² of automated steel and piping workshops in Perama with access to five Panamax-capable dry docks in cooperation with Piraeus Port Authority (OLP S.A.), we execute demanding repairs, structural conversions, newbuildings, and in-house manufactured EGCS scrubber and BWTS retrofits.
             </p>
 
-            <div className="mt-8 flex flex-wrap items-center gap-4">
+            <div className="mt-8 flex flex-col sm:flex-row sm:items-center gap-4">
               <button
                 type="button"
                 onClick={() => onNavigate('capabilities')}
-                className="px-6 py-3.5 text-sm font-semibold text-white bg-[#1D4ED8] hover:bg-[#1E40AF] rounded inline-flex items-center gap-2 transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+                className="w-full sm:w-auto px-6 py-3.5 text-sm font-semibold text-white bg-[#1D4ED8] hover:bg-[#1E40AF] rounded inline-flex items-center justify-center gap-2 transition-colors cursor-pointer"
               >
-                Explore Our Capabilities
-                <ArrowRight className="w-4 h-4" />
+                <span>Explore Our Capabilities</span>
+                <ArrowRight className="w-4 h-4 shrink-0" />
               </button>
 
               <button
                 type="button"
                 onClick={() => onNavigate('contact')}
-                className="px-6 py-3.5 text-sm font-semibold text-white bg-white/10 hover:bg-white/15 border border-white/25 rounded transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+                className="w-full sm:w-auto px-6 py-3.5 text-sm font-semibold text-white bg-white/10 hover:bg-white/15 border border-white/25 rounded transition-colors inline-flex items-center justify-center cursor-pointer"
               >
                 Contact Us
               </button>
@@ -313,6 +313,10 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
             </div>
 
             <div className="overflow-x-auto">
+              <div className="sm:hidden px-4 py-2 bg-[#0A111E] border-b border-slate-800 text-[11px] font-mono text-slate-400 flex items-center justify-between">
+                <span>Swipe horizontally to inspect all dock metrics</span>
+                <span className="text-[#60A5FA]">→</span>
+              </div>
               <table className="w-full text-left border-collapse">
                 <thead>
                   <tr className="border-b border-slate-800 text-[11px] font-mono text-slate-400 bg-[#0D1626]">

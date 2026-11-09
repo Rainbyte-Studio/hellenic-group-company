@@ -84,10 +84,10 @@ export const FacilitiesPage: React.FC<FacilitiesPageProps> = ({ onNavigate }) =>
               <button
                 type="button"
                 onClick={() => onNavigate('contact')}
-                className="px-5 py-3 text-xs font-semibold text-white bg-[#1D4ED8] hover:bg-[#1E40AF] rounded inline-flex items-center gap-2 transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+                className="w-full sm:w-auto px-5 py-3 text-xs font-semibold text-white bg-[#1D4ED8] hover:bg-[#1E40AF] rounded inline-flex items-center justify-center gap-2 transition-colors cursor-pointer"
               >
-                Check Dock &amp; Berth Availability
-                <ArrowRight className="w-4 h-4" />
+                <span>Check Dock &amp; Berth Availability</span>
+                <ArrowRight className="w-4 h-4 shrink-0" />
               </button>
             </div>
           </div>

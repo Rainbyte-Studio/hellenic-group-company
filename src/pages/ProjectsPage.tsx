@@ -34,7 +34,7 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onNavigate }) => {
   return (
     <div className="bg-[#F8FAFC]">
       {/* Page Hero */}
-      <section className="bg-[#0A111E] text-white border-b border-slate-800 py-16 lg:py-22">
+      <section className="bg-[#0A111E] text-white border-b border-slate-800 py-16 lg:py-24">
         <div className="max-w-[1360px] mx-auto px-5 sm:px-8">
           <div className="max-w-3xl">
             <div className="flex flex-wrap items-center gap-2 text-xs font-mono text-[#60A5FA] mb-4">
