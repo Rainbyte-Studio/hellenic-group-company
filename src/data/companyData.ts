@@ -95,10 +95,6 @@ export const COMPANY_INFO = {
     accountingPhone: '+30 217 7000 389',
     commercialEmail: 'contact@hellenicshipbuildingind.com',
     accountingEmail: 'info@hellenicshipbuildingind.com',
-    groupEmails: {
-      general: 'info@hellenicgroupcompany.com',
-      commercial: 'sales@hellenicgroupcompany.com',
-    },
   },
   workingHours: {
     weekdays: 'Monday – Friday: 08:00 – 17:30 EET',

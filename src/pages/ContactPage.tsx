@@ -136,25 +136,15 @@ export const ContactPage: React.FC = () => {
                   </div>
 
                   <div>
-                    <span className="text-slate-500 block mb-1">Commercial Emails</span>
-                    <div className="font-mono space-y-1">
-                      <p>
-                        <a
-                          href={`mailto:${COMPANY_INFO.contacts.commercialEmail}`}
-                          className="text-[#1D4ED8] hover:underline break-all"
-                        >
-                          {COMPANY_INFO.contacts.commercialEmail}
-                        </a>
-                      </p>
-                      <p>
-                        <a
-                          href={`mailto:${COMPANY_INFO.contacts.groupEmails.commercial}`}
-                          className="text-slate-700 hover:text-[#1D4ED8] hover:underline break-all"
-                        >
-                          {COMPANY_INFO.contacts.groupEmails.commercial}
-                        </a>
-                      </p>
-                    </div>
+                    <span className="text-slate-500 block mb-1">Commercial Email</span>
+                    <p className="font-mono">
+                      <a
+                        href={`mailto:${COMPANY_INFO.contacts.commercialEmail}`}
+                        className="text-[#1D4ED8] hover:underline break-all"
+                      >
+                        {COMPANY_INFO.contacts.commercialEmail}
+                      </a>
+                    </p>
                   </div>
                 </div>
               </div>
@@ -270,25 +260,15 @@ export const ContactPage: React.FC = () => {
                   </div>
 
                   <div>
-                    <span className="text-slate-500 block mb-1">Administration Emails</span>
-                    <div className="font-mono space-y-1">
-                      <p>
-                        <a
-                          href={`mailto:${COMPANY_INFO.contacts.accountingEmail}`}
-                          className="text-[#1D4ED8] hover:underline break-all"
-                        >
-                          {COMPANY_INFO.contacts.accountingEmail}
-                        </a>
-                      </p>
-                      <p>
-                        <a
-                          href={`mailto:${COMPANY_INFO.contacts.groupEmails.general}`}
-                          className="text-slate-700 hover:text-[#1D4ED8] hover:underline break-all"
-                        >
-                          {COMPANY_INFO.contacts.groupEmails.general}
-                        </a>
-                      </p>
-                    </div>
+                    <span className="text-slate-500 block mb-1">Administration Email</span>
+                    <p className="font-mono">
+                      <a
+                        href={`mailto:${COMPANY_INFO.contacts.accountingEmail}`}
+                        className="text-[#1D4ED8] hover:underline break-all"
+                      >
+                        {COMPANY_INFO.contacts.accountingEmail}
+                      </a>
+                    </p>
                   </div>
                 </div>
               </div>
