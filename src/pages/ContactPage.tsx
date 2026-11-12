@@ -1,103 +1,26 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Phone,
   Mail,
   MapPin,
   Clock,
-  CheckCircle2,
-  AlertCircle,
-  Send,
+  ExternalLink,
+  ShieldCheck,
+  FileText,
+  Anchor,
+  Compass,
+  Building2,
 } from 'lucide-react';
 import { COMPANY_INFO } from '../data/companyData';
-
-interface FormState {
-  name: string;
-  company: string;
-  email: string;
-  phone: string;
-  subject: string;
-  vesselDetails: string;
-  message: string;
-}
-
-interface FormErrors {
-  name?: string;
-  company?: string;
-  email?: string;
-  phone?: string;
-  subject?: string;
-  message?: string;
-}
-
-const INITIAL_FORM: FormState = {
-  name: '',
-  company: '',
-  email: '',
-  phone: '',
-  subject: 'Ship Repair & Dry-Docking Inquiry',
-  vesselDetails: '',
-  message: '',
-};
+import { MaritimeImage } from '../components/MaritimeImage';
 
 export const ContactPage: React.FC = () => {
-  const [form, setForm] = useState<FormState>(INITIAL_FORM);
-  const [errors, setErrors] = useState<FormErrors>({});
-  const [submittedRef, setSubmittedRef] = useState<string | null>(null);
-  const [submittedSnapshot, setSubmittedSnapshot] = useState<FormState | null>(null);
-
-  const validate = (): FormErrors => {
-    const nextErrors: FormErrors = {};
-    if (!form.name.trim() || form.name.trim().length < 2) {
-      nextErrors.name = 'Please enter your full name.';
-    }
-    if (!form.company.trim()) {
-      nextErrors.company = 'Please enter your shipping company or organization name.';
-    }
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!form.email.trim() || !emailRegex.test(form.email.trim())) {
-      nextErrors.email = 'Please enter a valid corporate email address.';
-    }
-    const phoneRegex = /^[+\d\s\-().]{7,25}$/;
-    if (!form.phone.trim() || !phoneRegex.test(form.phone.trim())) {
-      nextErrors.phone = 'Please enter a valid telephone number (with country code).';
-    }
-    if (!form.subject.trim()) {
-      nextErrors.subject = 'Please specify a project subject or department.';
-    }
-    if (!form.message.trim() || form.message.trim().length < 15) {
-      nextErrors.message =
-        'Please provide a brief project specification or inquiry message (at least 15 characters).';
-    }
-    return nextErrors;
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const validationErrors = validate();
-    if (Object.keys(validationErrors).length > 0) {
-      setErrors(validationErrors);
-      return;
-    }
-    setErrors({});
-    const refId = `HGC-${new Date().getFullYear()}-${Math.floor(10000 + Math.random() * 90000)}`;
-    setSubmittedSnapshot({ ...form });
-    setSubmittedRef(refId);
-    setForm(INITIAL_FORM);
-  };
-
-  const handleChange = (
-    field: keyof FormState,
-    value: string
-  ) => {
-    setForm((prev) => ({ ...prev, [field]: value }));
-    if (errors[field as keyof FormErrors]) {
-      setErrors((prev) => ({ ...prev, [field]: undefined }));
-    }
-  };
+  const peramaGoogleMapsUrl =
+    'https://www.google.com/maps/search/?api=1&query=Free+Zone+OLP+Perama+Repair+Zone+18863+Perama+Piraeus+Greece';
 
   return (
     <div className="bg-[#F8FAFC]">
-      {/* Page Hero */}
+      {/* 1. Page Hero */}
       <section className="bg-[#0A111E] text-white border-b border-slate-800 py-16 lg:py-24">
         <div className="max-w-[1360px] mx-auto px-5 sm:px-8">
           <div className="max-w-3xl">
@@ -106,7 +29,7 @@ export const ContactPage: React.FC = () => {
               <span aria-hidden="true">·</span>
               <span>Free Zone OLP, 18863 Perama, Piraeus</span>
               <span aria-hidden="true">·</span>
-              <span>24/7 Emergency Support</span>
+              <span>24/7 Voyage &amp; Emergency Support</span>
             </div>
             <h1
               className="font-display font-bold text-white tracking-tight leading-tight"
@@ -115,154 +38,487 @@ export const ContactPage: React.FC = () => {
               Contact Hellenic Group Company
             </h1>
             <p className="mt-4 text-base sm:text-lg text-slate-300 leading-relaxed">
-              Connect directly with our Commercial Department, Naval Engineering Office, or Accounting Desk at our shipyard headquarters in the Perama Repair Zone, Piraeus, Greece.
+              Direct commercial, technical, and operational dispatch for shipowners, technical
+              superintendents, fleet managers, and maritime operators worldwide. Connect directly
+              with our Perama shipyard headquarters, dry-docking desks, and emergency repair teams.
             </p>
+
+            {/* Quick-Action Channels */}
+            <div className="mt-8 flex flex-wrap items-center gap-3">
+              <a
+                href={`tel:${COMPANY_INFO.contacts.commercialPhonePrimary.replace(/\s+/g, '')}`}
+                className="px-5 py-3 text-xs font-semibold text-white bg-[#1D4ED8] hover:bg-[#1E40AF] rounded inline-flex items-center justify-center gap-2 transition-colors cursor-pointer"
+              >
+                <Phone className="w-4 h-4 shrink-0" />
+                <span>Call Commercial Desk</span>
+              </a>
+              <a
+                href={`mailto:${COMPANY_INFO.contacts.commercialEmail}?subject=${encodeURIComponent(
+                  'Dry-Docking & Technical Inquiry — Hellenic Group Company'
+                )}`}
+                className="px-5 py-3 text-xs font-semibold text-white bg-white/10 hover:bg-white/15 border border-white/25 rounded inline-flex items-center justify-center gap-2 transition-colors cursor-pointer"
+              >
+                <Mail className="w-4 h-4 shrink-0" />
+                <span>Email Commercial Desk</span>
+              </a>
+              <a
+                href={`tel:${COMPANY_INFO.contacts.mobile24x7Primary.replace(/\s+/g, '')}`}
+                className="px-5 py-3 text-xs font-semibold text-amber-300 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 rounded inline-flex items-center justify-center gap-2 transition-colors cursor-pointer"
+              >
+                <Anchor className="w-4 h-4 shrink-0" />
+                <span>24/7 Emergency Mobile</span>
+              </a>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Main Contact Section */}
-      <section className="py-16 lg:py-24">
+      {/* 2. Departmental Contact Cards (3-Column Grid) */}
+      <section className="py-16 lg:py-20 border-b border-slate-200">
         <div className="max-w-[1360px] mx-auto px-5 sm:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-            {/* Left Column: Verified Corporate Contact Information (5 Cols) */}
-            <div className="lg:col-span-5 space-y-6">
-              <div className="bg-white border border-slate-200 rounded p-6 sm:p-8 space-y-6">
-                <div>
-                  <p className="text-xs font-mono text-[#1D4ED8] font-medium">
-                    Direct Corporate Channels
-                  </p>
-                  <h2 className="mt-1 font-display text-xl font-bold text-slate-900">
-                    Shipyard &amp; Departmental Contacts
-                  </h2>
+          <div className="max-w-3xl mb-12">
+            <p className="text-xs font-mono text-[#1D4ED8] font-medium tracking-wide">
+              Direct Corporate Departments
+            </p>
+            <h2 className="mt-1 font-display text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
+              Operational Channels &amp; Technical Desks
+            </h2>
+            <p className="mt-3 text-sm sm:text-base text-slate-600 leading-relaxed">
+              Our Perama facility coordinates directly with clients, classification societies, and
+              the Piraeus Port Authority (OLP S.A.) to provide immediate quotation, berth
+              allocation, and project execution.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
+            {/* Card 1: Commercial & Technical Department */}
+            <div className="bg-white border border-slate-200 rounded p-6 sm:p-8 flex flex-col justify-between hover:border-slate-300 transition-colors">
+              <div>
+                <div className="flex items-center justify-between">
+                  <span className="p-2.5 bg-blue-50 text-[#1D4ED8] rounded">
+                    <Building2 className="w-5 h-5" />
+                  </span>
+                  <span className="text-[11px] font-mono font-medium px-2.5 py-1 bg-blue-50 text-[#1D4ED8] rounded">
+                    Primary Yard Desk
+                  </span>
                 </div>
 
-                {/* Address */}
-                <div className="pt-4 border-t border-slate-200 flex items-start gap-3.5">
-                  <MapPin className="w-5 h-5 text-[#1D4ED8] shrink-0 mt-0.5" />
+                <h3 className="mt-5 font-display text-lg font-bold text-slate-900">
+                  Commercial &amp; Technical Department
+                </h3>
+                <p className="mt-2 text-xs text-slate-600 leading-relaxed">
+                  Direct management of dry-docking reservations, ship repair tenders, newbuilding
+                  specifications up to 5,000 DWT, complex vessel conversions, and BWTS / EGCS
+                  scrubber retrofits.
+                </p>
+
+                <div className="mt-6 pt-5 border-t border-slate-100 space-y-3.5 text-xs">
                   <div>
-                    <h3 className="font-display text-sm font-bold text-slate-900">
-                      Shipyard &amp; Workshops Address
-                    </h3>
-                    <p className="mt-1 text-sm text-slate-600">
-                      {COMPANY_INFO.operatingDivision}
-                    </p>
-                    <p className="text-sm text-slate-700 font-medium">
-                      {COMPANY_INFO.location.fullAddress}
-                    </p>
-                  </div>
-                </div>
-
-                {/* Commercial Department */}
-                <div className="pt-4 border-t border-slate-200 flex items-start gap-3.5">
-                  <Phone className="w-5 h-5 text-[#1D4ED8] shrink-0 mt-0.5" />
-                  <div className="space-y-1.5">
-                    <h3 className="font-display text-sm font-bold text-slate-900">
-                      Commercial &amp; Technical Department
-                    </h3>
-                    <div className="text-xs font-mono text-slate-700 space-y-1">
+                    <span className="text-slate-500 block mb-1">Commercial Switchboard</span>
+                    <div className="font-mono text-slate-900 font-semibold space-y-1">
                       <p>
-                        Switchboard:{' '}
                         <a
-                          href="tel:+302104410729"
-                          className="text-[#1D4ED8] hover:underline font-semibold"
+                          href={`tel:${COMPANY_INFO.contacts.commercialPhonePrimary.replace(/\s+/g, '')}`}
+                          className="hover:text-[#1D4ED8] transition-colors"
                         >
                           {COMPANY_INFO.contacts.commercialPhonePrimary}
-                        </a>{' '}
-                        /{' '}
+                        </a>
+                      </p>
+                      <p>
                         <a
-                          href="tel:+302104414547"
-                          className="text-[#1D4ED8] hover:underline font-semibold"
+                          href={`tel:${COMPANY_INFO.contacts.commercialPhoneSecondary.replace(/\s+/g, '')}`}
+                          className="hover:text-[#1D4ED8] transition-colors"
                         >
                           {COMPANY_INFO.contacts.commercialPhoneSecondary}
                         </a>
                       </p>
+                    </div>
+                  </div>
+
+                  <div>
+                    <span className="text-slate-500 block mb-1">Commercial Emails</span>
+                    <div className="font-mono space-y-1">
                       <p>
-                        24/7 Mobile &amp; Voyage Dispatch:{' '}
-                        <a
-                          href="tel:+306985580737"
-                          className="text-[#1D4ED8] hover:underline font-semibold"
-                        >
-                          {COMPANY_INFO.contacts.mobile24x7Primary}
-                        </a>{' '}
-                        /{' '}
-                        <a
-                          href="tel:+306936783852"
-                          className="text-[#1D4ED8] hover:underline font-semibold"
-                        >
-                          {COMPANY_INFO.contacts.mobile24x7Secondary}
-                        </a>
-                      </p>
-                      <p>
-                        Email:{' '}
                         <a
                           href={`mailto:${COMPANY_INFO.contacts.commercialEmail}`}
-                          className="text-[#1D4ED8] hover:underline"
+                          className="text-[#1D4ED8] hover:underline break-all"
                         >
                           {COMPANY_INFO.contacts.commercialEmail}
                         </a>
                       </p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Accounting Department */}
-                <div className="pt-4 border-t border-slate-200 flex items-start gap-3.5">
-                  <Mail className="w-5 h-5 text-[#1D4ED8] shrink-0 mt-0.5" />
-                  <div className="space-y-1.5">
-                    <h3 className="font-display text-sm font-bold text-slate-900">
-                      Accounting &amp; Administration Department
-                    </h3>
-                    <div className="text-xs font-mono text-slate-700 space-y-1">
                       <p>
-                        Telephone:{' '}
                         <a
-                          href="tel:+302177000389"
-                          className="text-[#1D4ED8] hover:underline font-semibold"
+                          href={`mailto:${COMPANY_INFO.contacts.groupEmails.commercial}`}
+                          className="text-slate-700 hover:text-[#1D4ED8] hover:underline break-all"
                         >
-                          {COMPANY_INFO.contacts.accountingPhone}
-                        </a>
-                      </p>
-                      <p>
-                        Email:{' '}
-                        <a
-                          href={`mailto:${COMPANY_INFO.contacts.accountingEmail}`}
-                          className="text-[#1D4ED8] hover:underline"
-                        >
-                          {COMPANY_INFO.contacts.accountingEmail}
+                          {COMPANY_INFO.contacts.groupEmails.commercial}
                         </a>
                       </p>
                     </div>
                   </div>
                 </div>
+              </div>
 
-                {/* Opening Hours */}
-                <div className="pt-4 border-t border-slate-200 flex items-start gap-3.5">
-                  <Clock className="w-5 h-5 text-[#1D4ED8] shrink-0 mt-0.5" />
-                  <div className="space-y-1">
-                    <h3 className="font-display text-sm font-bold text-slate-900">
-                      Shipyard Operating Hours
-                    </h3>
-                    <p className="text-xs font-mono text-slate-600">
-                      {COMPANY_INFO.workingHours.weekdays}
-                    </p>
-                    <p className="text-xs font-mono text-slate-600">
-                      {COMPANY_INFO.workingHours.saturday}
-                    </p>
-                    <p className="text-xs text-slate-500">
-                      {COMPANY_INFO.workingHours.sunday}
+              <div className="mt-6 pt-5 border-t border-slate-100">
+                <a
+                  href={`mailto:${COMPANY_INFO.contacts.commercialEmail}?subject=${encodeURIComponent(
+                    'Tender Specification / Inquiry — Commercial Desk'
+                  )}`}
+                  className="w-full py-2.5 px-4 text-xs font-semibold text-white bg-[#1D4ED8] hover:bg-[#1E40AF] rounded inline-flex items-center justify-center gap-2 transition-colors text-center"
+                >
+                  <Mail className="w-3.5 h-3.5 shrink-0" />
+                  <span>Email Commercial Desk</span>
+                </a>
+              </div>
+            </div>
+
+            {/* Card 2: 24/7 Emergency & Voyage Repair Dispatch */}
+            <div className="bg-white border border-slate-200 rounded p-6 sm:p-8 flex flex-col justify-between hover:border-slate-300 transition-colors">
+              <div>
+                <div className="flex items-center justify-between">
+                  <span className="p-2.5 bg-amber-50 text-amber-700 rounded">
+                    <Anchor className="w-5 h-5" />
+                  </span>
+                  <span className="text-[11px] font-mono font-medium px-2.5 py-1 bg-amber-50 text-amber-800 rounded">
+                    Immediate Response
+                  </span>
+                </div>
+
+                <h3 className="mt-5 font-display text-lg font-bold text-slate-900">
+                  24/7 Emergency &amp; Voyage Dispatch
+                </h3>
+                <p className="mt-2 text-xs text-slate-600 leading-relaxed">
+                  Continuous technical on-call service for urgent afloat steel renewals, collision
+                  damage response, mechanical breakdowns, certified riding squads, and emergency
+                  dry-dock allocation in Piraeus.
+                </p>
+
+                <div className="mt-6 pt-5 border-t border-slate-100 space-y-3.5 text-xs">
+                  <div>
+                    <span className="text-slate-500 block mb-1">24/7 Mobile Hotlines</span>
+                    <div className="font-mono text-slate-900 font-semibold space-y-1">
+                      <p>
+                        <a
+                          href={`tel:${COMPANY_INFO.contacts.mobile24x7Primary.replace(/\s+/g, '')}`}
+                          className="hover:text-[#1D4ED8] transition-colors"
+                        >
+                          {COMPANY_INFO.contacts.mobile24x7Primary}
+                        </a>
+                      </p>
+                      <p>
+                        <a
+                          href={`tel:${COMPANY_INFO.contacts.mobile24x7Secondary.replace(/\s+/g, '')}`}
+                          className="hover:text-[#1D4ED8] transition-colors"
+                        >
+                          {COMPANY_INFO.contacts.mobile24x7Secondary}
+                        </a>
+                      </p>
+                    </div>
+                  </div>
+
+                  <div>
+                    <span className="text-slate-500 block mb-1">Voyage Squad Coverage</span>
+                    <p className="text-slate-700 font-mono">
+                      Mediterranean, Black Sea &amp; Worldwide Ports
                     </p>
                   </div>
                 </div>
               </div>
 
-              {/* Perama Repair Zone Interactive Map Embed */}
-              <div className="bg-white border border-slate-200 rounded overflow-hidden">
-                <div className="px-5 py-3.5 bg-[#0A111E] text-white flex items-center justify-between text-xs font-mono">
-                  <span>Perama Repair Zone (Free Zone OLP)</span>
+              <div className="mt-6 pt-5 border-t border-slate-100">
+                <a
+                  href={`tel:${COMPANY_INFO.contacts.mobile24x7Primary.replace(/\s+/g, '')}`}
+                  className="w-full py-2.5 px-4 text-xs font-semibold text-slate-900 bg-amber-100 hover:bg-amber-200 border border-amber-300 rounded inline-flex items-center justify-center gap-2 transition-colors text-center"
+                >
+                  <Phone className="w-3.5 h-3.5 shrink-0" />
+                  <span>Call Emergency Dispatch</span>
+                </a>
+              </div>
+            </div>
+
+            {/* Card 3: Accounting & Administration Department */}
+            <div className="bg-white border border-slate-200 rounded p-6 sm:p-8 flex flex-col justify-between hover:border-slate-300 transition-colors md:col-span-2 lg:col-span-1">
+              <div>
+                <div className="flex items-center justify-between">
+                  <span className="p-2.5 bg-slate-100 text-slate-700 rounded">
+                    <FileText className="w-5 h-5" />
+                  </span>
+                  <span className="text-[11px] font-mono font-medium px-2.5 py-1 bg-slate-100 text-slate-700 rounded">
+                    Administration Desk
+                  </span>
+                </div>
+
+                <h3 className="mt-5 font-display text-lg font-bold text-slate-900">
+                  Accounting &amp; Administration
+                </h3>
+                <p className="mt-2 text-xs text-slate-600 leading-relaxed">
+                  Financial management, vendor documentation, commercial contracts, port authority
+                  and customs clearance verification, class survey filing, and corporate governance.
+                </p>
+
+                <div className="mt-6 pt-5 border-t border-slate-100 space-y-3.5 text-xs">
+                  <div>
+                    <span className="text-slate-500 block mb-1">Direct Accounting Telephone</span>
+                    <p className="font-mono text-slate-900 font-semibold">
+                      <a
+                        href={`tel:${COMPANY_INFO.contacts.accountingPhone.replace(/\s+/g, '')}`}
+                        className="hover:text-[#1D4ED8] transition-colors"
+                      >
+                        {COMPANY_INFO.contacts.accountingPhone}
+                      </a>
+                    </p>
+                  </div>
+
+                  <div>
+                    <span className="text-slate-500 block mb-1">Administration Emails</span>
+                    <div className="font-mono space-y-1">
+                      <p>
+                        <a
+                          href={`mailto:${COMPANY_INFO.contacts.accountingEmail}`}
+                          className="text-[#1D4ED8] hover:underline break-all"
+                        >
+                          {COMPANY_INFO.contacts.accountingEmail}
+                        </a>
+                      </p>
+                      <p>
+                        <a
+                          href={`mailto:${COMPANY_INFO.contacts.groupEmails.general}`}
+                          className="text-slate-700 hover:text-[#1D4ED8] hover:underline break-all"
+                        >
+                          {COMPANY_INFO.contacts.groupEmails.general}
+                        </a>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-6 pt-5 border-t border-slate-100">
+                <a
+                  href={`mailto:${COMPANY_INFO.contacts.accountingEmail}?subject=${encodeURIComponent(
+                    'Administration & Accounting Inquiry — Hellenic Group Company'
+                  )}`}
+                  className="w-full py-2.5 px-4 text-xs font-semibold text-slate-800 bg-white hover:bg-slate-100 border border-slate-300 rounded inline-flex items-center justify-center gap-2 transition-colors text-center"
+                >
+                  <Mail className="w-3.5 h-3.5 shrink-0" />
+                  <span>Email Administration</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 3. Location, Shipyard Headquarters & Interactive Map Section */}
+      <section className="py-16 lg:py-24 bg-white border-b border-slate-200">
+        <div className="max-w-[1360px] mx-auto px-5 sm:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+            {/* Left Column (5 Cols): Physical Addresses, Operating Hours & Legal Identity */}
+            <div className="lg:col-span-5 space-y-6">
+              <div>
+                <p className="text-xs font-mono text-[#1D4ED8] font-medium tracking-wide">
+                  Physical Infrastructure &amp; Seat
+                </p>
+                <h2 className="mt-1 font-display text-2xl font-bold text-slate-900 tracking-tight">
+                  Shipyard Location &amp; Headquarters
+                </h2>
+              </div>
+
+              {/* Shipyard Facilities & Workshops Card */}
+              <div className="bg-[#F8FAFC] border border-slate-200 rounded p-6 sm:p-7 space-y-5">
+                <div className="flex items-start gap-3.5">
+                  <MapPin className="w-5 h-5 text-[#1D4ED8] shrink-0 mt-0.5" />
+                  <div className="space-y-1">
+                    <h3 className="font-display text-sm font-bold text-slate-900">
+                      Shipyard &amp; Fabrication Workshops
+                    </h3>
+                    <p className="text-xs text-slate-600 font-medium">
+                      {COMPANY_INFO.operatingDivision}
+                    </p>
+                    <p className="text-xs sm:text-sm text-slate-800 font-mono">
+                      {COMPANY_INFO.location.fullAddress}
+                    </p>
+                    <p className="text-xs font-mono text-[#1D4ED8] pt-1">
+                      Coordinates: 37°57&apos;49&quot;N 23°34&apos;05&quot;E
+                    </p>
+                  </div>
+                </div>
+
+                <div className="pt-4 border-t border-slate-200">
+                  <a
+                    href={peramaGoogleMapsUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs font-semibold text-[#1D4ED8] hover:text-[#1E40AF] inline-flex items-center gap-1.5 transition-colors"
+                  >
+                    <span>Open Shipyard Location in Google Maps</span>
+                    <ExternalLink className="w-3.5 h-3.5" />
+                  </a>
+                </div>
+              </div>
+
+              {/* Operating Hours Card */}
+              <div className="bg-[#F8FAFC] border border-slate-200 rounded p-6 sm:p-7 space-y-4">
+                <div className="flex items-start gap-3.5">
+                  <Clock className="w-5 h-5 text-[#1D4ED8] shrink-0 mt-0.5" />
+                  <div className="space-y-2 w-full">
+                    <h3 className="font-display text-sm font-bold text-slate-900">
+                      Shipyard &amp; Office Working Hours
+                    </h3>
+                    <dl className="divide-y divide-slate-200 text-xs">
+                      <div className="py-2 flex justify-between gap-4">
+                        <dt className="text-slate-500">Monday – Friday</dt>
+                        <dd className="font-mono font-medium text-slate-900 text-right">
+                          08:00 – 17:30 EET
+                        </dd>
+                      </div>
+                      <div className="py-2 flex justify-between gap-4">
+                        <dt className="text-slate-500">Saturday</dt>
+                        <dd className="font-mono font-medium text-slate-900 text-right">
+                          08:00 – 17:30 EET
+                        </dd>
+                      </div>
+                      <div className="py-2 flex justify-between gap-4">
+                        <dt className="text-slate-500">Sunday</dt>
+                        <dd className="font-medium text-slate-700 text-right">
+                          Closed · 24/7 Emergency Dispatch Available
+                        </dd>
+                      </div>
+                    </dl>
+                  </div>
+                </div>
+              </div>
+
+              {/* Official Company Legal Information Card */}
+              <div className="bg-[#F8FAFC] border border-slate-200 rounded p-6 sm:p-7 space-y-4">
+                <div className="flex items-start gap-3.5">
+                  <ShieldCheck className="w-5 h-5 text-[#1D4ED8] shrink-0 mt-0.5" />
+                  <div className="space-y-3 w-full">
+                    <div>
+                      <h3 className="font-display text-sm font-bold text-slate-900">
+                        Official Legal Entity Information (Στοιχεία Εταιρείας)
+                      </h3>
+                      <p className="mt-1 text-xs text-slate-600">
+                        Registered in the General Commercial Registry of the Hellenic Republic
+                      </p>
+                    </div>
+
+                    <dl className="divide-y divide-slate-200 text-xs">
+                      <div className="py-2">
+                        <dt className="text-slate-500">Greek Legal Name</dt>
+                        <dd className="font-mono font-medium text-slate-900 mt-0.5">
+                          {COMPANY_INFO.legal.greekLegalName}
+                        </dd>
+                      </div>
+                      <div className="py-2">
+                        <dt className="text-slate-500">English Legal Name</dt>
+                        <dd className="font-mono font-medium text-slate-900 mt-0.5">
+                          {COMPANY_INFO.legal.englishLegalName}
+                        </dd>
+                      </div>
+                      <div className="py-2 flex justify-between gap-4">
+                        <dt className="text-slate-500">GEMI Registration No.</dt>
+                        <dd className="font-mono font-semibold text-slate-900">
+                          {COMPANY_INFO.legal.gemi}
+                        </dd>
+                      </div>
+                      <div className="py-2 flex justify-between gap-4">
+                        <dt className="text-slate-500">VAT Number (ΑΦΜ)</dt>
+                        <dd className="font-mono font-semibold text-[#1D4ED8]">
+                          {COMPANY_INFO.legal.vat}
+                        </dd>
+                      </div>
+                      <div className="py-2">
+                        <dt className="text-slate-500">Registered Office (Έδρα)</dt>
+                        <dd className="font-medium text-slate-900 mt-0.5">
+                          {COMPANY_INFO.legal.registeredOfficeEnglish}
+                        </dd>
+                        <dd className="text-slate-500 font-mono text-[11px] mt-0.5">
+                          {COMPANY_INFO.legal.registeredOfficeGreek}
+                        </dd>
+                      </div>
+                    </dl>
+
+                    <div className="pt-2">
+                      <a
+                        href={COMPANY_INFO.legal.mapsUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-xs font-semibold text-[#1D4ED8] hover:text-[#1E40AF] inline-flex items-center gap-1.5 transition-colors"
+                      >
+                        <span>Open Registered Office in Google Maps</span>
+                        <ExternalLink className="w-3.5 h-3.5" />
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Corporate Social & Reference Links */}
+              <div className="bg-[#F8FAFC] border border-slate-200 rounded p-6 sm:p-7">
+                <div className="flex items-center gap-3 text-xs">
+                  <Compass className="w-4 h-4 text-[#1D4ED8] shrink-0" />
+                  <span className="font-semibold text-slate-900">Official Social &amp; Reference Channels:</span>
+                </div>
+                <div className="mt-3 flex flex-wrap items-center gap-3 text-xs">
+                  <a
+                    href={COMPANY_INFO.socialLinks.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-3 py-1.5 bg-white border border-slate-300 rounded hover:border-slate-400 text-slate-700 hover:text-[#1D4ED8] transition-colors inline-flex items-center gap-1.5"
+                  >
+                    <span>LinkedIn</span>
+                    <ExternalLink className="w-3 h-3" />
+                  </a>
+                  <a
+                    href={COMPANY_INFO.socialLinks.facebook}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-3 py-1.5 bg-white border border-slate-300 rounded hover:border-slate-400 text-slate-700 hover:text-[#1D4ED8] transition-colors inline-flex items-center gap-1.5"
+                  >
+                    <span>Facebook</span>
+                    <ExternalLink className="w-3 h-3" />
+                  </a>
+                  <a
+                    href={COMPANY_INFO.socialLinks.instagram}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-3 py-1.5 bg-white border border-slate-300 rounded hover:border-slate-400 text-slate-700 hover:text-[#1D4ED8] transition-colors inline-flex items-center gap-1.5"
+                  >
+                    <span>Instagram</span>
+                    <ExternalLink className="w-3 h-3" />
+                  </a>
+                  <a
+                    href={COMPANY_INFO.socialLinks.sourceSite}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-3 py-1.5 bg-white border border-slate-300 rounded hover:border-slate-400 text-slate-700 hover:text-[#1D4ED8] transition-colors inline-flex items-center gap-1.5"
+                  >
+                    <span>Reference Portal</span>
+                    <ExternalLink className="w-3 h-3" />
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Column (7 Cols): Interactive Map & Shipyard Visual Asset */}
+            <div className="lg:col-span-7 space-y-6">
+              <div>
+                <p className="text-xs font-mono text-[#1D4ED8] font-medium tracking-wide">
+                  Port Infrastructure &amp; Dock Access
+                </p>
+                <h2 className="mt-1 font-display text-2xl font-bold text-slate-900 tracking-tight">
+                  Perama Repair Zone &amp; Piraeus Harbour Docks
+                </h2>
+              </div>
+
+              {/* Interactive OpenStreetMap Embed */}
+              <div className="bg-white border border-slate-200 rounded overflow-hidden shadow-sm">
+                <div className="px-5 py-3.5 bg-[#0A111E] text-white flex flex-wrap items-center justify-between gap-2 text-xs font-mono">
+                  <span>Perama Repair Zone (Free Zone OLP, Piraeus)</span>
                   <span className="text-[#60A5FA]">37°57&apos;49&quot;N 23°34&apos;05&quot;E</span>
                 </div>
-                <div className="h-64 w-full bg-slate-100">
+                <div className="h-80 sm:h-96 w-full bg-slate-100">
                   <iframe
                     title="Hellenic Group Company — Perama Repair Zone, Piraeus Map"
                     src="https://www.openstreetmap.org/export/embed.html?bbox=23.5450%2C37.9500%2C23.6000%2C37.9800&layer=mapnik&marker=37.9636%2C23.5681"
@@ -271,318 +527,113 @@ export const ContactPage: React.FC = () => {
                     referrerPolicy="no-referrer"
                   />
                 </div>
+                <div className="px-5 py-3 bg-slate-50 border-t border-slate-200 flex flex-wrap items-center justify-between gap-3 text-xs">
+                  <span className="text-slate-600">
+                    Direct maritime access for commercial vessels, tankers, Ro-Ro ships &amp; tugs.
+                  </span>
+                  <a
+                    href={peramaGoogleMapsUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-semibold text-[#1D4ED8] hover:text-[#1E40AF] inline-flex items-center gap-1.5 transition-colors"
+                  >
+                    <span>Open in Google Maps for Directions</span>
+                    <ExternalLink className="w-3.5 h-3.5" />
+                  </a>
+                </div>
               </div>
-            </div>
 
-            {/* Right Column: Validated Corporate Contact & Tender Form (7 Cols) */}
-            <div className="lg:col-span-7 bg-white border border-slate-200 rounded p-6 sm:p-10">
-              <div className="pb-6 border-b border-slate-200">
-                <p className="text-xs font-mono text-[#1D4ED8] font-medium">
-                  Project Inquiry &amp; Technical Specification Form
-                </p>
-                <h2 className="mt-1 font-display text-2xl font-bold text-slate-900">
-                  Send Us Your Inquiry
-                </h2>
-                <p className="mt-2 text-sm text-slate-600 leading-relaxed">
-                  For further information about shipbuilding, dry-docking, structural repairs, vessel conversions, or BWTS / EGCS scrubber retrofits, complete the form below. Our technical desk will respond promptly.
-                </p>
-              </div>
-
-              {submittedRef && submittedSnapshot ? (
-                <div
-                  role="status"
-                  aria-live="polite"
-                  className="mt-6 p-6 bg-slate-50 border border-slate-300 rounded space-y-4"
-                >
-                  <div className="flex items-start gap-3">
-                    <CheckCircle2 className="w-6 h-6 text-emerald-700 shrink-0 mt-0.5" />
-                    <div>
-                      <p className="text-xs font-mono text-slate-500">
-                        Inquiry Reference: {submittedRef}
-                      </p>
-                      <h3 className="font-display text-lg font-bold text-slate-900">
-                        Inquiry Logged for Technical Review
-                      </h3>
-                      <p className="mt-1 text-sm text-slate-600 leading-relaxed">
-                        Thank you, <strong>{submittedSnapshot.name}</strong> ({submittedSnapshot.company}). Your message regarding <strong>{submittedSnapshot.subject}</strong> has been prepared for our Perama Commercial &amp; Estimating Department.
-                      </p>
-                    </div>
-                  </div>
-
-                  <dl className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-4 border-t border-slate-200 text-xs">
-                    <div>
-                      <dt className="text-slate-500">Contact Email</dt>
-                      <dd className="font-mono font-medium text-slate-900">{submittedSnapshot.email}</dd>
-                    </div>
-                    <div>
-                      <dt className="text-slate-500">Telephone</dt>
-                      <dd className="font-mono font-medium text-slate-900">{submittedSnapshot.phone}</dd>
-                    </div>
-                    {submittedSnapshot.vesselDetails && (
-                      <div className="sm:col-span-2">
-                        <dt className="text-slate-500">Vessel / Fleet Reference</dt>
-                        <dd className="font-mono font-medium text-slate-900">{submittedSnapshot.vesselDetails}</dd>
-                      </div>
-                    )}
-                  </dl>
-
-                  <div className="pt-4 border-t border-slate-200 flex flex-wrap items-center gap-3">
-                    <a
-                      href={`mailto:${COMPANY_INFO.contacts.commercialEmail}?subject=${encodeURIComponent(
-                        `[${submittedRef}] ${submittedSnapshot.subject} — ${submittedSnapshot.company}`
-                      )}&body=${encodeURIComponent(
-                        `Name: ${submittedSnapshot.name}\nCompany: ${submittedSnapshot.company}\nPhone: ${submittedSnapshot.phone}\nEmail: ${submittedSnapshot.email}\nVessel Details: ${submittedSnapshot.vesselDetails || 'N/A'}\n\nProject Specification / Message:\n${submittedSnapshot.message}`
-                      )}`}
-                      className="px-4 py-2.5 text-xs font-semibold text-white bg-[#1D4ED8] hover:bg-[#1E40AF] rounded inline-flex items-center justify-center gap-2 transition-colors text-center"
-                    >
-                      <Mail className="w-3.5 h-3.5 shrink-0" />
-                      <span>Dispatch Direct Email Copy to Commercial Desk</span>
-                    </a>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setSubmittedRef(null);
-                        setSubmittedSnapshot(null);
-                      }}
-                      className="px-4 py-2.5 text-xs font-semibold text-slate-700 bg-white hover:bg-slate-100 border border-slate-300 rounded transition-colors cursor-pointer text-center"
-                    >
-                      Submit Another Inquiry
-                    </button>
+              {/* Shipyard Aerial Visual Asset Card */}
+              <div className="bg-white border border-slate-200 rounded overflow-hidden">
+                <div className="h-64 sm:h-72 w-full overflow-hidden">
+                  <MaritimeImage
+                    src="/assets/hsi/hero-shipyard-aerial.jpg"
+                    alt="Aerial view of Perama Repair Zone and floating dry docks in Piraeus"
+                    className="w-full h-full object-cover"
+                    caption="Perama Repair Zone Waterfront · Access to 5 Floating & Graving Dry Docks (OLP S.A. Cooperation)"
+                  />
+                </div>
+                <div className="p-6">
+                  <h3 className="font-display text-base font-bold text-slate-900">
+                    Operational Access to Five Dry-Docking Facilities
+                  </h3>
+                  <p className="mt-2 text-xs sm:text-sm text-slate-600 leading-relaxed">
+                    Operating inside the designated Free Zone OLP in Perama with 6,000 m² of covered
+                    and open workshop capacity. Hellenic Group Company works in structured
+                    cooperation with Piraeus Port Authority (OLP S.A.) utilizing three floating dry
+                    docks in Perama and two permanent graving docks in Akti Vasileiadi, Drapetsona
+                    for vessels up to 240 m length and 22,000 tons lifting capacity.
+                  </p>
+                  <div className="mt-4 pt-4 border-t border-slate-100 flex flex-wrap items-center gap-2 text-xs font-mono text-slate-500">
+                    <span className="px-2.5 py-1 bg-slate-100 rounded text-slate-700">
+                      Panamax Capable
+                    </span>
+                    <span className="px-2.5 py-1 bg-slate-100 rounded text-slate-700">
+                      Deep-Water Quayside
+                    </span>
+                    <span className="px-2.5 py-1 bg-slate-100 rounded text-slate-700">
+                      ISO 9001 / 14001 / 45001
+                    </span>
                   </div>
                 </div>
-              ) : (
-                <form onSubmit={handleSubmit} noValidate className="mt-6 space-y-5">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                    {/* Name */}
-                    <div>
-                      <label
-                        htmlFor="contact-name"
-                        className="block text-xs font-semibold text-slate-800 mb-1.5"
-                      >
-                        Full Name <span className="text-red-600">*</span>
-                      </label>
-                      <input
-                        id="contact-name"
-                        name="name"
-                        type="text"
-                        required
-                        value={form.name}
-                        onChange={(e) => handleChange('name', e.target.value)}
-                        placeholder="e.g. Capt. Nikos Papadopoulos"
-                        aria-invalid={Boolean(errors.name)}
-                        aria-describedby={errors.name ? 'err-name' : undefined}
-                        className={`w-full px-3.5 py-2.5 text-sm bg-white border rounded focus:outline-none focus:ring-2 focus:ring-[#1D4ED8] ${
-                          errors.name ? 'border-red-600' : 'border-slate-300'
-                        }`}
-                      />
-                      {errors.name && (
-                        <p id="err-name" className="mt-1.5 text-xs text-red-600 flex items-center gap-1">
-                          <AlertCircle className="w-3.5 h-3.5 shrink-0" />
-                          <span>{errors.name}</span>
-                        </p>
-                      )}
-                    </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-                    {/* Company */}
-                    <div>
-                      <label
-                        htmlFor="contact-company"
-                        className="block text-xs font-semibold text-slate-800 mb-1.5"
-                      >
-                        Company / Fleet Operator <span className="text-red-600">*</span>
-                      </label>
-                      <input
-                        id="contact-company"
-                        name="company"
-                        type="text"
-                        required
-                        value={form.company}
-                        onChange={(e) => handleChange('company', e.target.value)}
-                        placeholder="e.g. Aegean Maritime Management S.A."
-                        aria-invalid={Boolean(errors.company)}
-                        aria-describedby={errors.company ? 'err-company' : undefined}
-                        className={`w-full px-3.5 py-2.5 text-sm bg-white border rounded focus:outline-none focus:ring-2 focus:ring-[#1D4ED8] ${
-                          errors.company ? 'border-red-600' : 'border-slate-300'
-                        }`}
-                      />
-                      {errors.company && (
-                        <p id="err-company" className="mt-1.5 text-xs text-red-600 flex items-center gap-1">
-                          <AlertCircle className="w-3.5 h-3.5 shrink-0" />
-                          <span>{errors.company}</span>
-                        </p>
-                      )}
-                    </div>
+      {/* 4. Technical Tender & RFQ Submission Protocol */}
+      <section className="py-16 bg-[#0A111E] text-white">
+        <div className="max-w-[1360px] mx-auto px-5 sm:px-8">
+          <div className="bg-[#111C2D] border border-slate-800 rounded p-8 sm:p-10">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+              <div className="lg:col-span-8 space-y-4">
+                <div className="flex items-center gap-2 text-xs font-mono text-[#60A5FA]">
+                  <FileText className="w-4 h-4" />
+                  <span>Technical Tender &amp; RFQ Submission Protocol</span>
+                </div>
+                <h2 className="font-display text-xl sm:text-2xl font-bold text-white tracking-tight">
+                  Submitting Vessel Specifications &amp; Dry-Docking Dossiers
+                </h2>
+                <p className="text-sm text-slate-300 leading-relaxed max-w-3xl">
+                  For formal repair specifications, vessel conversion tenders, or retrofit quotations,
+                  please transmit your technical dossier directly to our Commercial Desk. We
+                  recommend including:
+                </p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 text-xs text-slate-300">
+                  <div className="flex items-start gap-2">
+                    <span className="font-mono text-[#60A5FA] font-bold">01.</span>
+                    <span>Vessel particulars: Name, IMO number, LOA, Beam, Draft, and DWT</span>
                   </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                    {/* Email */}
-                    <div>
-                      <label
-                        htmlFor="contact-email"
-                        className="block text-xs font-semibold text-slate-800 mb-1.5"
-                      >
-                        Corporate Email <span className="text-red-600">*</span>
-                      </label>
-                      <input
-                        id="contact-email"
-                        name="email"
-                        type="email"
-                        required
-                        value={form.email}
-                        onChange={(e) => handleChange('email', e.target.value)}
-                        placeholder="technical@shippingcompany.com"
-                        aria-invalid={Boolean(errors.email)}
-                        aria-describedby={errors.email ? 'err-email' : undefined}
-                        className={`w-full px-3.5 py-2.5 text-sm bg-white border rounded focus:outline-none focus:ring-2 focus:ring-[#1D4ED8] ${
-                          errors.email ? 'border-red-600' : 'border-slate-300'
-                        }`}
-                      />
-                      {errors.email && (
-                        <p id="err-email" className="mt-1.5 text-xs text-red-600 flex items-center gap-1">
-                          <AlertCircle className="w-3.5 h-3.5 shrink-0" />
-                          <span>{errors.email}</span>
-                        </p>
-                      )}
-                    </div>
-
-                    {/* Phone */}
-                    <div>
-                      <label
-                        htmlFor="contact-phone"
-                        className="block text-xs font-semibold text-slate-800 mb-1.5"
-                      >
-                        Telephone <span className="text-red-600">*</span>
-                      </label>
-                      <input
-                        id="contact-phone"
-                        name="phone"
-                        type="tel"
-                        required
-                        value={form.phone}
-                        onChange={(e) => handleChange('phone', e.target.value)}
-                        placeholder="+30 210 ..."
-                        aria-invalid={Boolean(errors.phone)}
-                        aria-describedby={errors.phone ? 'err-phone' : undefined}
-                        className={`w-full px-3.5 py-2.5 text-sm bg-white border rounded focus:outline-none focus:ring-2 focus:ring-[#1D4ED8] ${
-                          errors.phone ? 'border-red-600' : 'border-slate-300'
-                        }`}
-                      />
-                      {errors.phone && (
-                        <p id="err-phone" className="mt-1.5 text-xs text-red-600 flex items-center gap-1">
-                          <AlertCircle className="w-3.5 h-3.5 shrink-0" />
-                          <span>{errors.phone}</span>
-                        </p>
-                      )}
-                    </div>
+                  <div className="flex items-start gap-2">
+                    <span className="font-mono text-[#60A5FA] font-bold">02.</span>
+                    <span>Detailed repair specification list or conversion drawings</span>
                   </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                    {/* Subject */}
-                    <div>
-                      <label
-                        htmlFor="contact-subject"
-                        className="block text-xs font-semibold text-slate-800 mb-1.5"
-                      >
-                        Subject / Inquiry Scope <span className="text-red-600">*</span>
-                      </label>
-                      <select
-                        id="contact-subject"
-                        name="subject"
-                        value={form.subject}
-                        onChange={(e) => handleChange('subject', e.target.value)}
-                        className="w-full px-3.5 py-2.5 text-sm bg-white border border-slate-300 rounded focus:outline-none focus:ring-2 focus:ring-[#1D4ED8]"
-                      >
-                        <option value="Ship Repair & Dry-Docking Inquiry">
-                          Ship Repair &amp; Dry-Docking Inquiry
-                        </option>
-                        <option value="Vessel Conversion & Hull Modification">
-                          Vessel Conversion &amp; Hull Modification
-                        </option>
-                        <option value="NewBuilding Construction (Up to 5,000 DWT)">
-                          NewBuilding Construction (Up to 5,000 DWT)
-                        </option>
-                        <option value="EGCS Scrubber System Installation / Retrofit">
-                          EGCS Scrubber System Installation / Retrofit
-                        </option>
-                        <option value="BWTS Installation & IMO D-2 LuminUltra Testing">
-                          BWTS Installation &amp; IMO D-2 LuminUltra Testing
-                        </option>
-                        <option value="GRE / SMO / Inox Piping & Steel Fabrication">
-                          GRE / SMO / Inox Piping &amp; Steel Fabrication
-                        </option>
-                        <option value="Accounting & General Administration">
-                          Accounting &amp; General Administration
-                        </option>
-                      </select>
-                    </div>
-
-                    {/* Optional Vessel Name / IMO / DWT */}
-                    <div>
-                      <label
-                        htmlFor="contact-vessel"
-                        className="block text-xs font-semibold text-slate-800 mb-1.5"
-                      >
-                        Vessel Name / IMO / Dimensions (Optional)
-                      </label>
-                      <input
-                        id="contact-vessel"
-                        name="vesselDetails"
-                        type="text"
-                        value={form.vesselDetails}
-                        onChange={(e) => handleChange('vesselDetails', e.target.value)}
-                        placeholder="e.g. M/V Example · LOA 190m · Beam 30m"
-                        className="w-full px-3.5 py-2.5 text-sm bg-white border border-slate-300 rounded focus:outline-none focus:ring-2 focus:ring-[#1D4ED8]"
-                      />
-                    </div>
+                  <div className="flex items-start gap-2">
+                    <span className="font-mono text-[#60A5FA] font-bold">03.</span>
+                    <span>Target dry-docking or repair schedule in Piraeus/Perama</span>
                   </div>
-
-                  {/* Message */}
-                  <div>
-                    <label
-                      htmlFor="contact-message"
-                      className="block text-xs font-semibold text-slate-800 mb-1.5"
-                    >
-                      Project Specification / Message <span className="text-red-600">*</span>
-                    </label>
-                    <textarea
-                      id="contact-message"
-                      name="message"
-                      rows={5}
-                      required
-                      value={form.message}
-                      onChange={(e) => handleChange('message', e.target.value)}
-                      placeholder="Describe the required repair scope, target dry-docking window in Piraeus/Perama, conversion parameters, or BWTS/EGCS retrofit requirements..."
-                      aria-invalid={Boolean(errors.message)}
-                      aria-describedby={errors.message ? 'err-message' : undefined}
-                      className={`w-full px-3.5 py-2.5 text-sm bg-white border rounded focus:outline-none focus:ring-2 focus:ring-[#1D4ED8] ${
-                        errors.message ? 'border-red-600' : 'border-slate-300'
-                      }`}
-                    />
-                    {errors.message && (
-                      <p id="err-message" className="mt-1.5 text-xs text-red-600 flex items-center gap-1">
-                        <AlertCircle className="w-3.5 h-3.5 shrink-0" />
-                        <span>{errors.message}</span>
-                      </p>
-                    )}
+                  <div className="flex items-start gap-2">
+                    <span className="font-mono text-[#60A5FA] font-bold">04.</span>
+                    <span>Classification society requirements and class status</span>
                   </div>
+                </div>
+              </div>
 
-                  <div className="pt-2 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                    <p className="text-xs text-slate-500">
-                      Direct Commercial Desk:{' '}
-                      <span className="font-mono text-slate-700">
-                        {COMPANY_INFO.contacts.commercialEmail}
-                      </span>
-                    </p>
-                    <button
-                      type="submit"
-                      className="px-6 py-3 text-xs font-semibold text-white bg-[#1D4ED8] hover:bg-[#1E40AF] rounded inline-flex items-center justify-center gap-2 transition-colors whitespace-nowrap shrink-0 cursor-pointer"
-                    >
-                      <Send className="w-3.5 h-3.5" />
-                      Submit Project Inquiry
-                    </button>
-                  </div>
-                </form>
-              )}
+              <div className="lg:col-span-4 flex flex-col items-start lg:items-end justify-center space-y-3">
+                <a
+                  href={`mailto:${COMPANY_INFO.contacts.commercialEmail}?subject=${encodeURIComponent(
+                    'Tender Specification / Dry-Docking Dossier — [Vessel Name]'
+                  )}`}
+                  className="w-full sm:w-auto px-6 py-3.5 text-xs font-semibold text-white bg-[#1D4ED8] hover:bg-[#1E40AF] rounded inline-flex items-center justify-center gap-2 transition-colors cursor-pointer text-center"
+                >
+                  <Mail className="w-4 h-4 shrink-0" />
+                  <span>Transmit Dossier to Commercial Desk</span>
+                </a>
+                <p className="text-[11px] font-mono text-slate-400 text-left lg:text-right">
+                  Standard response window: within 24 hours
+                </p>
+              </div>
             </div>
           </div>
         </div>
